@@ -4,6 +4,17 @@ export default {
   "expo": {
     "name": "ReactNativeBoilerPlate",
     "slug": "ReactNativeBoilerPlate",
+    "plugins": [
+      [
+        "react-native-fbsdk-next",
+        {
+          "appID": "508108111436122",
+          "clientToken": "359ee8ffd0a98227ab9e8bd5b7da6f57",
+          "displayName": "ReactNativeBoilerPlate",
+        }
+      ]
+    ],
+    "scheme" : "ReactNativeBoilerPlate",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
