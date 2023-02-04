@@ -8,6 +8,7 @@ import Icon  from 'react-native-vector-icons/FontAwesome';
 import * as Google from 'expo-auth-session/providers/google';
 import * as Facebook from 'expo-auth-session/providers/facebook';
 import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithCredential, FacebookAuthProvider } from 'firebase/auth';
+import { ResponseType } from 'expo-auth-session';
 
 interface Props {
   handleLogin: (email: string, password: string) => void;
@@ -46,46 +47,45 @@ const SignupScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
   }
 
  
-  // const [request, response, promptAsync] = Google.useIdTokenAuthRequest(
-  //   {
-  //     clientId: "926984366249-jp61kk42fpvjqdioi5o41thd74n64ej8.apps.googleusercontent.com",
-  //     iosClientId: "926984366249-b4cc95kqg1cqqjm32ufja4c6rppnroce.apps.googleusercontent.com",
-  //     androidClientId: "926984366249-ik4vekooe5cv8e2iihb4hu5fasmaei0r.apps.googleusercontent.com",
-  //   },
-  // );
+  const [reqGoogle, resGoogle, googlelogin] = Google.useIdTokenAuthRequest(
+    {
+      clientId: "926984366249-jp61kk42fpvjqdioi5o41thd74n64ej8.apps.googleusercontent.com",
+      iosClientId: "926984366249-b4cc95kqg1cqqjm32ufja4c6rppnroce.apps.googleusercontent.com",
+      androidClientId: "926984366249-ik4vekooe5cv8e2iihb4hu5fasmaei0r.apps.googleusercontent.com",
+    },
+  );
 
-  const [request, response, promptAsync] = Facebook.useAuthRequest({
+
+  const [reqFb, resFb, fblogin] = Facebook.useAuthRequest({
+    responseType: ResponseType.Token,
     clientId: '508108111436122',
     androidClientId: "508108111436122",
     iosClientId: "508108111436122",
   });
 
 
-  
-  
-
-  // React.useEffect(() => {
-  //   if (response?.type === 'success') {
-  //     const { id_token } = response.params;
-  //     const { accessToken } = response.params;
+  React.useEffect(() => {
+    if (resGoogle?.type === 'success') {
+      const { id_token } = resGoogle.params;
+      const { accessToken } = resGoogle.params;
       
-  //     const auth = getAuth();
-  //     const credential = GoogleAuthProvider.credential(id_token, accessToken);
-  //     signInWithCredential(auth, credential)
-  //     .then(res =>  navigation.navigate('Sign In', res))
-  //     .catch(err => console.log(err));
-  //     }
-  // }, [response]);
+      const auth = getAuth();
+      const credential = GoogleAuthProvider.credential(id_token, accessToken);
+      signInWithCredential(auth, credential)
+      .then()
+      .catch(err => console.log(err));
+      }
+  }, [resGoogle]);
 
   React.useEffect(() => {
-    if (response?.type === 'success') {
-      const { access_token } = response.params;
+    if (resFb?.type === 'success') {
+      const { access_token } = resFb.params;
       const auth = getAuth();
       const credential = FacebookAuthProvider.credential(access_token);
-      // Sign in with the credential from the Facebook user.
       signInWithCredential(auth, credential).then().catch(err => console.log(err));
     }
-  }, [response]);
+  }, [resFb]);
+
 
 
   return (
@@ -121,19 +121,20 @@ const SignupScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
 
         <SocialIcon
          onPress={() => {
-          promptAsync();
+          googlelogin();
         }}
-        disabled={!request}
-         title='Sign up with google'
+         disabled={!reqGoogle}
+         title='Sign in with google'
          button
          style={{padding: 20}} 
          type='google'
          />
+ 
         <SocialIcon
          onPress={() => {
-          promptAsync();
+          fblogin();
         }}
-        disabled={!request}
+        disabled={!reqFb}
          title='Sign up with facebbok'
          button
          style={{padding: 20}} 
