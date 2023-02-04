@@ -51,6 +51,9 @@ export default {
       firebaseStorageBucket: process.env.FIREBASE_STORAGE_BUCKET,
       firebaseMessagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
       firebaseAppId: process.env.FIREBASE_APP_ID,
+      "eas" : {
+        "projectId": "c7568a51-3025-4e24-8e3b-10e7d2a2eace"
+      }
     },
   }
 }
