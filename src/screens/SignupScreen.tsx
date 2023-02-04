@@ -36,12 +36,11 @@ const SignupScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
     try {
       await createUserWithEmailAndPassword(auth, value.email, value.password);
       navigation.navigate('Sign In');
-    } catch (error) {
-      console.log("error", error);
+    } catch (err) {
       
       setValue({
         ...value,
-      
+        error: "Email Already in Use"
       })
     }
   }

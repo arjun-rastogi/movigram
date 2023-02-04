@@ -36,10 +36,11 @@ const SigninScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
     try {
       await signInWithEmailAndPassword(auth, value.email, value.password);
     } catch (error) {
-      
       setValue({
         ...value,
+        error: "Wrong Password"
       })
+      
     }
   }
 
