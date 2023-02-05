@@ -6,7 +6,10 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { Button, Input, SocialIcon } from 'react-native-elements';
 import Icon  from 'react-native-vector-icons/FontAwesome';
 import * as Google from 'expo-auth-session/providers/google';
-import { getAuth, GoogleAuthProvider, signInWithCredential, signInWithEmailAndPassword } from 'firebase/auth';
+import * as Facebook from 'expo-auth-session/providers/facebook';
+import { ResponseType } from 'expo-auth-session';
+
+import { FacebookAuthProvider, getAuth, GoogleAuthProvider, signInWithCredential, signInWithEmailAndPassword } from 'firebase/auth';
 
 interface Props {
   handleLogin: (email: string, password: string) => void;
@@ -33,34 +36,36 @@ const SigninScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
     try {
       await signInWithEmailAndPassword(auth, value.email, value.password);
     } catch (error) {
-      
       setValue({
         ...value,
+        error: "Wrong Password"
       })
+      
     }
   }
 
 
-  WebBrowser.maybeCompleteAuthSession();
-  
-
-
-
-  const [request, response, promptAsync] = Google.useIdTokenAuthRequest(
+  const [reqGoogle, resGoogle, googlelogin] = Google.useIdTokenAuthRequest(
     {
-      clientId: "623008088372-d0i3m24okls4230hjcn3e736i6gg2afi.apps.googleusercontent.com",
-      iosClientId: "623008088372-fu2ef0vdbplv0bsfjoeb47ioe6ls9cnc.apps.googleusercontent.com",
-      androidClientId: "623008088372-3caesrka705uekrgakjs9kftmk9bcj9s.apps.googleusercontent.com",
+      clientId: "926984366249-jp61kk42fpvjqdioi5o41thd74n64ej8.apps.googleusercontent.com",
+      iosClientId: "926984366249-b4cc95kqg1cqqjm32ufja4c6rppnroce.apps.googleusercontent.com",
+      androidClientId: "926984366249-ik4vekooe5cv8e2iihb4hu5fasmaei0r.apps.googleusercontent.com",
     },
   );
 
-  
-  
+
+  const [reqFb, resFb, fblogin] = Facebook.useAuthRequest({
+    responseType: ResponseType.Token,
+    clientId: '508108111436122',
+    androidClientId: "508108111436122",
+    iosClientId: "508108111436122",
+  });
+
 
   React.useEffect(() => {
-    if (response?.type === 'success') {
-      const { id_token } = response.params;
-      const { accessToken } = response.params;
+    if (resGoogle?.type === 'success') {
+      const { id_token } = resGoogle.params;
+      const { accessToken } = resGoogle.params;
       
       const auth = getAuth();
       const credential = GoogleAuthProvider.credential(id_token, accessToken);
@@ -68,7 +73,17 @@ const SigninScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
       .then()
       .catch(err => console.log(err));
       }
-  }, [response]);
+  }, [resGoogle]);
+
+  React.useEffect(() => {
+    if (resFb?.type === 'success') {
+      const { access_token } = resFb.params;
+      const auth = getAuth();
+      const credential = FacebookAuthProvider.credential(access_token);
+      signInWithCredential(auth, credential).then().catch(err => console.log(err));
+    }
+  }, [resFb]);
+
 
   return (
     <View className='flex-1 justify-center items-center p-5'>
@@ -102,13 +117,24 @@ const SigninScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
         <Button title="Signin" className='flex-1' onPress={signIn} />
         <SocialIcon
          onPress={() => {
-          promptAsync();
+          googlelogin();
         }}
-        disabled={!request}
+         disabled={!reqGoogle}
          title='Sign in with google'
          button
          style={{padding: 20}} 
          type='google'
+         />
+ 
+        <SocialIcon
+         onPress={() => {
+          fblogin();
+        }}
+        disabled={!reqFb}
+         title='Sign up with facebbok'
+         button
+         style={{padding: 20}} 
+         type='facebook'
          />
 
     </View>
