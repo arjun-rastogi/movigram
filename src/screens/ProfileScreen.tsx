@@ -40,9 +40,9 @@ const ProfileScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
 
     
     useEffect(() => {
-      getUser();
+     if(user) getUser();
       navigation.addListener("focus", () => setLoading(!loading));
-    }, [navigation, loading]);
+    }, [navigation, loading, user]);
 
 
     console.log("user data", data);
@@ -51,7 +51,7 @@ const ProfileScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
     
   return (
     <>
-    <SafeAreaView className='flex-1'>
+    <SafeAreaView className='flex-1 bg-white'>
     
     <View className='px-8 mb-6'>
         <View className='flex-row mt-4'>
