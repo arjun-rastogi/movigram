@@ -12,15 +12,8 @@ import { db } from '../config/firebase';
 type Props = {}
 
 const ProfileScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
-
-
     const [loading, setLoading] = useState(true);
     const auth = getAuth();
-    
-    
-    
-    // const imageUrl: string | null | undefined = user?.photoURL;
-    
     const [data, setData] = useState<null | any>(null);
     const { user } = useAuthentication();
 
