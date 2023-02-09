@@ -1,32 +1,24 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useState, useEffect, useRef} from 'react';
-import { View, SafeAreaView, StyleSheet, TextInput, TouchableOpacity, ImageBackground } from 'react-native';
+import { View, SafeAreaView, StyleSheet, TextInput, TouchableOpacity, ImageBackground, Alert } from 'react-native';
 import { Avatar, Icon,  Text, Button  } from 'react-native-elements';
 import { useAuthentication } from './../utils/hooks/useAuthentication';
 import { StackScreenProps } from '@react-navigation/stack';
 import { getAuth, signOut } from 'firebase/auth';
-import { doc, getDoc } from "firebase/firestore";
-import { db } from '../config/firebase';
-import Animated from 'react-native-reanimated';
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { db, storage } from '../config/firebase';
+import Animated, { log } from 'react-native-reanimated';
 import BottomSheet from 'reanimated-bottom-sheet';
 import * as ImagePicker from 'expo-image-picker';
+import { ref,  uploadBytes, getDownloadURL } from "firebase/storage";
 
 type Props = {}
 
 const EditProfileScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
-
-
     const [loading, setLoading] = useState(true);
-    const auth = getAuth();
-    
-    
-    
-    // const imageUrl: string | null | undefined = user?.photoURL;
     
     const [data, setData] = useState<null | any>(null);
     const [image, setImage] = useState<null | any>(null);
-    const [uploading, setUploading] = useState<boolean>(false);
-    const [transferred, setTransferred] = useState<Number>(0);
 
     const { user } = useAuthentication();
     const bs = useRef<BottomSheet>(null);
@@ -44,35 +36,55 @@ const EditProfileScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
       });    
     }
 
-    const uploadImage = async () => {
-      if( image == null ) {
-        return null;
+    const handleUpdate = () => {
+    uploadImage(image);
+
+    const document = doc(db, "users" ,`${user?.uid}`);
+    getDoc(document).then(docSnap => {
+      if(docSnap.exists()) {
+        updateDoc(doc(db, 'users', `${user?.uid}`), {
+          fullName: data.fullName,
+          phoneNumber: data.phoneNumber,
+          photoURL:  image,
+        })
+        console.log('User Updated!');
+        Alert.alert(
+          'Profile Updated!',
+          'Your profile has been updated successfully.'
+        );
+      } else {
+        Alert.alert(
+          'There is an issue in updating your profile!',
+        );
       }
-      const uploadUri = image;
-      let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
-  
-      // Add timestamp to File Name
-      const extension = filename.split('.').pop(); 
-      const name = filename.split('.').slice(0, -1).join('.');
-      filename = name + Date.now() + '.' + extension;
-  
-      setUploading(true);
-      setTransferred(0);
+    });
+
     }
 
-    // const handleUpdate = async() => {
-    //   let imgUrl = await uploadImage();
+    const uploadImage = async (image : any) => {
+      const uploadUri = image;
+      let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
+      const storageRef  = ref(storage, 'images/' + filename);
+      const response = await fetch(image);
+      const blob = await response.blob();
   
-    //   if( imgUrl == null && data.photoURL ) {
-    //     imgUrl = data.photoURL;
-    //   }
-  
-    // }
+      uploadBytes(storageRef, blob)
+        .then(() => {
+          getDownloadURL(storageRef).then(url => {
+            setImage(url)
+            return url;
+          })
+        })
+        .catch((error) => {
+          console.log(`Upload failed: ${error}`);
+        });
+    };
 
     useEffect(() => {
       if(user) getUser();
       navigation.addListener("focus", () => setLoading(!loading));
     }, [navigation, loading, user]);
+
 
     const takePhotoFromCamera = async() => {
       let result = await ImagePicker.launchCameraAsync({
@@ -82,9 +94,9 @@ const EditProfileScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
         quality: 1,
       });
   
-      console.log(result);
-  
+ 
       if (!result.canceled) {
+        console.log("result camnera", result);
         setImage(result.assets[0].uri);
       }
     };
@@ -102,9 +114,9 @@ const EditProfileScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
           quality: 1,
         });
     
-        console.log(result);
-    
+        
         if (!result.canceled) {
+          console.log("result gallery", result);
           setImage(result.assets[0].uri);
         }
       }
@@ -229,12 +241,11 @@ const EditProfileScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
       </View>
 
 
-      <TouchableOpacity className='p-2 rounded-xl bg-cyan-800 items-center mt-3'  onPress={() => {}}>
+      <TouchableOpacity className='p-2 rounded-xl bg-cyan-800 items-center mt-3'  onPress={handleUpdate}>
           <Text className='text-white' h4>Submit</Text>
       </TouchableOpacity>
       </Animated.View>
 
-      {/* <Button title="Sign Out" className='mt-3' onPress={() => signOut(auth)} /> */}
     </SafeAreaView>
 
     </>
