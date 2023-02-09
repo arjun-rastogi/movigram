@@ -6,12 +6,14 @@ import DashboardScreen from './../screens/DashboardScreen';
 
 const Stack = createStackNavigator();
 import 'react-native-gesture-handler';
+import EditProfileScreen from '../screens/EditProfileScreen';
 
 export default function UserStack() {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Navigator>
         <Stack.Screen name="Dashboard" component={DashboardScreen} />
+        <Stack.Screen name="Edit Profile" component={EditProfileScreen}  />
       </Stack.Navigator>
     </NavigationContainer>
   );

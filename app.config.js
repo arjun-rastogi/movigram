@@ -11,6 +11,12 @@ export default {
           "appID": "508108111436122",
           "clientToken": "359ee8ffd0a98227ab9e8bd5b7da6f57",
           "displayName": "ReactNativeBoilerPlate",
+        },
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
       ]
     ],
