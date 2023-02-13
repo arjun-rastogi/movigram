@@ -51,7 +51,7 @@ const ProfileScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
 
          <View className='ml-5 '>
             <Text h4>My Account</Text>
-            <Text h4>{data ? data.fullName || 'Test' : 'Test'}</Text>
+            <Text h4>{data ? data.fullName || 'User' : 'User'}</Text>
             <Text className='font-medium'>{data ? data.email || "No details added" : ""}</Text>
          </View>
         </View>
