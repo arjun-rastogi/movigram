@@ -13,7 +13,6 @@ export default function UserStack() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Dashboard" component={DashboardScreen} />
-        <Stack.Screen name="Dashboard" component={DashboardScreen} />
         <Stack.Screen name="Edit Profile" component={EditProfileScreen} />
       </Stack.Navigator>
     </NavigationContainer>
