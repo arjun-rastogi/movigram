@@ -18,7 +18,16 @@ const DashboardScreen = () => {
   }, []);
 
   return (
-    <Tab.Navigator initialRouteName="Home">
+    <Tab.Navigator
+      initialRouteName="Home"
+      screenOptions={{
+        tabBarActiveTintColor: "#e33939",
+        tabBarStyle: {
+          backgroundColor: "black",
+          borderTopColor: "black",
+        },
+      }}
+    >
       <Tab.Screen
         name="Home"
         component={HomeScreen}
@@ -26,7 +35,12 @@ const DashboardScreen = () => {
           tabBarLabel: "Home",
           tabBarIcon: ({ color }) => (
             <View style={{ marginLeft: 10 }}>
-              <Icon name="home" size={25} color={color} type="font-awesome" />
+              <Icon
+                name="play-circle"
+                size={25}
+                color={color}
+                type="font-awesome"
+              />
             </View>
           ),
         }}
