@@ -1,6 +1,6 @@
 import { View, Dimensions, StyleSheet, FlatList } from "react-native";
 import React, { useEffect, useState } from "react";
-import { baseImagePath, getNowPlayinges } from "../services/movieService";
+import { baseImagePath, getNowPlaying } from "../services/movieService";
 import FeaturedNowPlaying from "../common/FeaturedNowPlaying";
 import CategoryHeader from "../common/CategoryHeader";
 import { Movie } from "../types/MovieType";
@@ -11,7 +11,7 @@ const NowPlaying = (props: any) => {
 
   const fetchData = async () => {
     try {
-      const response = await getNowPlayinges();
+      const response = await getNowPlaying();
       const results: Movie[] = response.data.results;
       setFeaturedNowPlaying(results);
     } catch (error) {

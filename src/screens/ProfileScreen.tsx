@@ -1,19 +1,21 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
-import { View, Image, StyleSheet, StatusBar } from "react-native";
+import { View, Button, Image, StyleSheet, StatusBar } from "react-native";
 import { Text } from "react-native-elements";
 import { useAuthentication } from "./../utils/hooks/useAuthentication";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
-import { FONTSIZE, COLORS, SPACING } from "../common/constant";
+import { FONTSIZE, COLORS, SPACING, BORDERRADIUS } from "../common/constant";
 import AppHeader from "../common/AppHeader";
 import Setting from "./../common/Setting";
 import { useNavigation } from "@react-navigation/native";
+import { getAuth, signOut } from "firebase/auth";
 
 export default function ProfileScreen() {
   const navigation = useNavigation();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<null | any>(null);
   const { user } = useAuthentication();
+  const auth = getAuth();
   const getUser = async () => {
     const document = doc(db, "users", `${user?.uid}`);
     await getDoc(document).then((docSnap) => {
@@ -73,6 +75,20 @@ export default function ProfileScreen() {
             heading="Settings"
             subheading="Theme"
             subtitle="Permissions"
+          />
+        </View>
+        <View
+          style={{
+            borderWidth: 1,
+            paddingHorizontal: SPACING.space_10,
+            paddingVertical: SPACING.space_4,
+            borderRadius: BORDERRADIUS.radius_25,
+          }}
+        >
+          <Button
+            title="Sign Out"
+            color={COLORS.Orange}
+            onPress={() => signOut(auth)}
           />
         </View>
       </View>

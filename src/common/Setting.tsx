@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: FONTSIZE.size_14,
-    color: COLORS.WhiteRGBA15,
+    color: COLORS.White,
   },
 });
 export default Setting;
