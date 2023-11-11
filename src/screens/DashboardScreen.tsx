@@ -1,74 +1,76 @@
-import React, { useLayoutEffect} from 'react';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import HomeScreen from './HomeScreen';
-import ProfileScreen from './ProfileScreen';
-import { View } from 'react-native';
-import { StackScreenProps } from '@react-navigation/stack';
-import { Icon } from 'react-native-elements';
-import { DrawerActions } from '@react-navigation/native';
+import React, { useLayoutEffect } from "react";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import HomeScreen from "./HomeScreen";
+import ProfileScreen from "./ProfileScreen";
+import SearchScreen from "./SearchScreen";
+import { View } from "react-native";
+import { Icon } from "react-native-elements";
+import { useNavigation } from "@react-navigation/native";
 
-const DashboardScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
+const Tab = createBottomTabNavigator();
 
-  const Drawer = createDrawerNavigator();
-  useLayoutEffect(()=>{
+const DashboardScreen = () => {
+  const navigation = useNavigation();
+  useLayoutEffect(() => {
     navigation.setOptions({
-        headerShown : false,
-    })
-  },[])
+      headerShown: false,
+    });
+  }, []);
 
- return (
-    <>
-    <Drawer.Navigator initialRouteName='DashboardScreen'>
-      <Drawer.Screen 
-      name="Home" 
-      component={HomeScreen} 
-      options={{
-        title: 'Home',
-        headerLeft: () => (
-          <View style={{marginLeft: 10}}>
-            <Icon
-              name="bars"
-              size={25}
-              type='font-awesome'
-              color="#777777"
-              onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
-            />
-          </View>
-        ),
+  return (
+    <Tab.Navigator
+      initialRouteName="Home"
+      screenOptions={{
+        tabBarActiveTintColor: "#e33939",
+        tabBarStyle: {
+          backgroundColor: "black",
+          borderTopColor: "black",
+        },
       }}
+    >
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          tabBarLabel: "Home",
+          tabBarIcon: ({ color }) => (
+            <View style={{ marginLeft: 10 }}>
+              <Icon
+                name="play-circle"
+                size={25}
+                color={color}
+                type="font-awesome"
+              />
+            </View>
+          ),
+        }}
       />
-      <Drawer.Screen
-      name="Profile" 
-      component={ProfileScreen} 
-      options={{
-        title: 'Profile',
-        headerLeft: () => (
-          <View style={{marginLeft: 10}}>
-            <Icon
-              name="bars"
-              size={25}
-              type='font-awesome'
-              color="#777777"
-              onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
-            />
-          </View>
-        ),
-        headerRight: () => (
-          <View style={{marginRight: 10}}>
-            <Icon
-              name="edit"
-              size={25}
-              type='font-awesome'
-              color="#777777"
-              onPress={() => navigation.navigate("Edit Profile")}
-            />
-          </View>
-        ),
-      }}
+      <Tab.Screen
+        name="Search"
+        component={SearchScreen}
+        options={{
+          tabBarLabel: "Search",
+          tabBarIcon: ({ color }) => (
+            <View style={{ marginLeft: 10 }}>
+              <Icon name="search" size={25} color={color} type="font-awesome" />
+            </View>
+          ),
+        }}
       />
-    </Drawer.Navigator>
-    </>
+      <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          tabBarLabel: "Profile",
+          tabBarIcon: ({ color }) => (
+            <View style={{ marginLeft: 10 }}>
+              <Icon name="user" size={25} color={color} type="font-awesome" />
+            </View>
+          ),
+        }}
+      />
+    </Tab.Navigator>
   );
-}
+};
 
-export default DashboardScreen
+export default DashboardScreen;
