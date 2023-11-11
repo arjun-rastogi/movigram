@@ -3,7 +3,7 @@ import { getUpcoming } from "../services/movieService";
 import { Movie } from "../types/MovieType";
 import MoviesCarousel from "./../common/MoviesCarousel";
 
-const UpcomingMovie = () => {
+const UpcomingMovie = (props: any) => {
   const [upcomingMovie, setUpcomingMovie] = useState<Movie[]>([]);
   const fetchData = async () => {
     try {
@@ -21,7 +21,11 @@ const UpcomingMovie = () => {
 
   return (
     <>
-      <MoviesCarousel title="Upcoming Movie" movies={upcomingMovie} />
+      <MoviesCarousel
+        navigation={props.navigation}
+        title="Upcoming Movie"
+        movies={upcomingMovie}
+      />
     </>
   );
 };

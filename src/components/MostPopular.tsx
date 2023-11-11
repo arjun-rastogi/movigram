@@ -3,7 +3,7 @@ import { getMostPopular } from "../services/movieService";
 import { Movie } from "../types/MovieType";
 import MoviesCarousel from "./../common/MoviesCarousel";
 
-const MostPopular = () => {
+const MostPopular = (props: any) => {
   const [mostPopular, setMostPopular] = useState<Movie[]>([]);
   const fetchData = async () => {
     try {
@@ -21,7 +21,11 @@ const MostPopular = () => {
 
   return (
     <>
-      <MoviesCarousel title="Most Popular" movies={mostPopular} />
+      <MoviesCarousel
+        navigation={props.navigation}
+        title="Most Popular"
+        movies={mostPopular}
+      />
     </>
   );
 };

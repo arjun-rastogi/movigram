@@ -1,15 +1,9 @@
 import React from "react";
 import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
-import {
-  COLORS,
-  SPACING,
-  BORDERRADIUS,
-  FONTSIZE,
-  FONTFAMILY,
-} from "./constant";
+import { COLORS, SPACING, BORDERRADIUS, FONTSIZE } from "./constant";
 
 interface MovieCardProps {
-  cardFunction?: () => void;
+  cardFunction: () => void;
   shoudlMarginatedAtEnd?: boolean;
   isFirst?: boolean;
   isLast?: boolean;
@@ -24,7 +18,7 @@ interface MovieCardProps {
 
 const MovieCard: React.FC<MovieCardProps> = (props) => {
   return (
-    <TouchableOpacity onPress={() => props.cardFunction?.()}>
+    <TouchableOpacity onPress={() => props.cardFunction()}>
       <View
         style={[
           styles.container,
@@ -69,7 +63,6 @@ const styles = StyleSheet.create({
     padding: SPACING.space_10,
   },
   textTitle: {
-    fontFamily: FONTFAMILY.poppins_regular,
     fontSize: FONTSIZE.size_14,
     color: COLORS.White,
     textAlign: "left",

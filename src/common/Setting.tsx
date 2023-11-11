@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Text, View, StyleSheet } from "react-native";
-import { COLORS, FONTFAMILY, FONTSIZE, SPACING } from "../common/constant";
+import { COLORS, FONTSIZE, SPACING } from "../common/constant";
 import { Icon } from "react-native-elements";
 
 const Setting = (props: any) => {
@@ -42,12 +42,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   title: {
-    fontFamily: FONTFAMILY.poppins_medium,
     fontSize: FONTSIZE.size_18,
     color: COLORS.White,
   },
   subtitle: {
-    fontFamily: FONTFAMILY.poppins_regular,
     fontSize: FONTSIZE.size_14,
     color: COLORS.WhiteRGBA15,
   },

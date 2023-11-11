@@ -1,15 +1,9 @@
 import React from "react";
 import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
-import {
-  COLORS,
-  SPACING,
-  BORDERRADIUS,
-  FONTSIZE,
-  FONTFAMILY,
-} from "./constant"; // Import your constants
+import { COLORS, SPACING, BORDERRADIUS, FONTSIZE } from "./constant"; // Import your constants
 
 interface FeaturedNowPlayingProps {
-  cardFunction?: () => void;
+  cardFunction: () => void;
   shoudlMarginatedAtEnd?: boolean;
   isFirst?: boolean;
   isLast?: boolean;
@@ -24,7 +18,7 @@ interface FeaturedNowPlayingProps {
 
 const FeaturedNowPlaying: React.FC<FeaturedNowPlayingProps> = (props) => {
   return (
-    <TouchableOpacity onPress={() => props.cardFunction?.()}>
+    <TouchableOpacity onPress={() => props.cardFunction()}>
       <View
         style={[
           styles.container,
@@ -50,9 +44,7 @@ const FeaturedNowPlaying: React.FC<FeaturedNowPlayingProps> = (props) => {
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={styles.watchTrailerButton}
-              onPress={() => {
-                // Handle Watch Trailer action
-              }}
+              onPress={() => props.cardFunction()}
             >
               <Image
                 source={require("../assets/images/watch.png")}
@@ -83,7 +75,6 @@ const styles = StyleSheet.create({
     padding: SPACING.space_10,
   },
   textTitle: {
-    fontFamily: FONTFAMILY.poppins_regular,
     fontSize: FONTSIZE.size_14,
     color: COLORS.White,
     textAlign: "left",
@@ -109,7 +100,6 @@ const styles = StyleSheet.create({
     marginRight: SPACING.space_4,
   },
   watchTrailerText: {
-    fontFamily: FONTFAMILY.poppins_medium,
     fontSize: FONTSIZE.size_14,
     color: COLORS.White,
   },

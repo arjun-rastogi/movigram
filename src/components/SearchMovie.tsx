@@ -7,7 +7,7 @@ import InputHeader from "../common/InputHeader";
 import MovieCard from "../common/MovieCard";
 const { width } = Dimensions.get("window");
 
-const SearchMovie = () => {
+const SearchMovie = (props: any) => {
   const [searchList, setSearchList] = useState<Movie[]>([]);
   const fetchData = async (name: string) => {
     try {
@@ -40,9 +40,10 @@ const SearchMovie = () => {
           }
           return (
             <MovieCard
-              // cardFunction={() => {
-              //   navigation.navigate('MovieDetails', {  item.id });
-              // }}
+              cardFunction={() => {
+                props.navigation.navigate("MovieDetailScreen", { id: item.id });
+              }}
+              key={item?.id}
               cardWidth={width * 0.6}
               isFirst={index === 0}
               isLast={index === searchList.length - 1}

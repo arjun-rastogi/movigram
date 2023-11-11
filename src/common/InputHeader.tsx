@@ -6,13 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import {
-  SPACING,
-  COLORS,
-  BORDERRADIUS,
-  FONTFAMILY,
-  FONTSIZE,
-} from "./constant";
+import { SPACING, COLORS, BORDERRADIUS, FONTSIZE } from "./constant";
 import { Icon } from "react-native-elements";
 type Props = {
   searchFunction: () => void;
@@ -50,7 +44,6 @@ const styles = StyleSheet.create({
   },
   textInput: {
     width: "90%",
-    fontFamily: FONTFAMILY.poppins_regular,
     fontSize: FONTSIZE.size_14,
     color: COLORS.White,
   },

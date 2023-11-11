@@ -25,11 +25,11 @@ export default function HomeScreen() {
           />
         </View>
         {/* Now Playing */}
-        <NowPlaying />
+        <NowPlaying navigation={navigation} />
         {/* Most Popular */}
-        <MostPopular />
+        <MostPopular navigation={navigation} />
         {/* Upcoming Movies */}
-        <UpcomingMovie />
+        <UpcomingMovie navigation={navigation} />
       </ScrollView>
     </>
   );

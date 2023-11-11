@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import { View, Image, StyleSheet, StatusBar } from "react-native";
-import { Avatar, Icon, Text } from "react-native-elements";
+import { Text } from "react-native-elements";
 import { useAuthentication } from "./../utils/hooks/useAuthentication";
-import { StackScreenProps } from "@react-navigation/stack";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
-import { FONTSIZE, COLORS, FONTFAMILY, SPACING } from "../common/constant";
+import { FONTSIZE, COLORS, SPACING } from "../common/constant";
 import AppHeader from "../common/AppHeader";
 import Setting from "./../common/Setting";
+import { useNavigation } from "@react-navigation/native";
 
-type Props = {};
-
-const ProfileScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
+export default function ProfileScreen() {
+  const navigation = useNavigation();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<null | any>(null);
   const { user } = useAuthentication();
@@ -25,7 +24,11 @@ const ProfileScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
       }
     });
   };
-
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: false,
+    });
+  }, [navigation]);
   useEffect(() => {
     if (user) getUser();
     navigation.addListener("focus", () => setLoading(!loading));
@@ -75,7 +78,7 @@ const ProfileScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
       </View>
     </>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -102,5 +105,3 @@ const styles = StyleSheet.create({
     color: COLORS.White,
   },
 });
-
-export default ProfileScreen;

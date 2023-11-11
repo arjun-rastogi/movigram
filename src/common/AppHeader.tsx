@@ -1,12 +1,6 @@
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
-import {
-  BORDERRADIUS,
-  COLORS,
-  FONTFAMILY,
-  FONTSIZE,
-  SPACING,
-} from "../common/constant";
+import { BORDERRADIUS, COLORS, FONTSIZE, SPACING } from "../common/constant";
 import { Icon } from "react-native-elements";
 
 const AppHeader = (props: any) => {
@@ -33,7 +27,6 @@ const styles = StyleSheet.create({
   },
   headerText: {
     flex: 1,
-    fontFamily: FONTFAMILY.poppins_medium,
     fontSize: FONTSIZE.size_20,
     textAlign: "center",
     color: COLORS.White,

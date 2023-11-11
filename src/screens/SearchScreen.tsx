@@ -17,7 +17,7 @@ export default function SearchScreen() {
         <StatusBar />
 
         {/* "Search Movie" */}
-        <SearchMovie />
+        <SearchMovie navigation={navigation} />
       </ScrollView>
     </>
   );
