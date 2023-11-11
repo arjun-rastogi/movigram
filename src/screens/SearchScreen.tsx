@@ -13,7 +13,7 @@ export default function SearchScreen() {
   }, [navigation]);
   return (
     <>
-      <ScrollView style={styles.homeContainer} bounces={false}>
+      <ScrollView style={styles.searchContainer} bounces={false}>
         <StatusBar />
 
         {/* "Search Movie" */}
@@ -24,7 +24,7 @@ export default function SearchScreen() {
 }
 
 const styles = StyleSheet.create({
-  homeContainer: {
+  searchContainer: {
     display: "flex",
     backgroundColor: COLORS.Black,
   },
