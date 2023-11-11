@@ -1,10 +1,11 @@
 import React, { useLayoutEffect } from "react";
-import { Text, View, TouchableOpacity } from "react-native";
+import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import * as WebBrowser from "expo-web-browser";
 import { StackScreenProps } from "@react-navigation/stack";
 import { Button, Input } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { BORDERRADIUS, COLORS, FONTSIZE, SPACING } from "../common/constant";
 
 interface Props {
   handleLogin: (email: string, password: string) => void;
@@ -45,8 +46,8 @@ const SigninScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
   }, []);
 
   return (
-    <View className="flex-1 justify-center items-center p-5">
-      <Text className="text-lg">Signin screen!</Text>
+    <View className="flex-1 justify-center items-center p-5 bg-black">
+      <Text className="text-lg text-white">Signin screen!</Text>
       {!!value.error && (
         <View className="text-white bg-red-500 p-3 mt-3">
           <Text>{value.error}</Text>
@@ -55,6 +56,7 @@ const SigninScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
 
       <Input
         placeholder="Email"
+        style={styles.textInput}
         className="ml-2 "
         value={value.email}
         onChangeText={(text) => setValue({ ...value, email: text })}
@@ -65,13 +67,19 @@ const SigninScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
       <Input
         placeholder="Password"
         className="ml-2 "
+        style={styles.textInput}
         value={value.password}
         onChangeText={(text) => setValue({ ...value, password: text })}
         secureTextEntry={true}
         leftIcon={<Icon name="key" size={16} />}
       />
 
-      <Button title="Signin" className="flex-1" onPress={signIn} />
+      <Button
+        title="Signin"
+        style={{ backgroundColor: COLORS.Orange }}
+        className="flex-1"
+        onPress={signIn}
+      />
       <View
         style={{
           flexDirection: "row",
@@ -80,13 +88,30 @@ const SigninScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
           marginTop: 10,
         }}
       >
-        <Text>Don't have an account?</Text>
+        <Text className=" text-white">Don't have an account? </Text>
         <TouchableOpacity onPress={() => navigation.navigate("Sign Up")}>
-          <Text style={{ color: "blue" }}>Sign up</Text>
+          <Text style={{ color: COLORS.Orange }}>Sign up</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  inputBox: {
+    display: "flex",
+    paddingVertical: SPACING.space_8,
+    paddingHorizontal: SPACING.space_24,
+    borderWidth: 2,
+    borderColor: COLORS.WhiteRGBA15,
+    borderRadius: BORDERRADIUS.radius_25,
+    flexDirection: "row",
+  },
+  textInput: {
+    width: "90%",
+    fontSize: FONTSIZE.size_14,
+    color: COLORS.White,
+  },
+});
 
 export default SigninScreen;
