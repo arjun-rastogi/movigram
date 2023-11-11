@@ -1,15 +1,19 @@
 import http from "./httpService";
 
-const nowPlayingEndpoint = "/movie/now_playing";
-const mostPopularEndpoint = "/movie/popular";
-const upcomingEndpoint = "/movie/upcoming";
 const API_KEY = "1cf50e6248dc270629e802686245c2c8";
 const BASE_URL = "https://api.themoviedb.org/3";
 const language = "en-US"; // Replace with the desired language
 
+const nowPlayingEndpoint = "/movie/now_playing";
+const mostPopularEndpoint = "/movie/popular";
+const upcomingEndpoint = "/movie/upcoming";
+const searchEndpoint = "/search/movie";
+
 const nowPlayingEndPoint = `${BASE_URL}${nowPlayingEndpoint}?api_key=${API_KEY}&language=${language}`;
 const mostPopularEndPoint = `${BASE_URL}${mostPopularEndpoint}?api_key=${API_KEY}&language=${language}`;
 const upcomingEndPoint = `${BASE_URL}${upcomingEndpoint}?api_key=${API_KEY}&language=${language}`;
+const searchEndPoint = `${BASE_URL}${searchEndpoint}?api_key=${API_KEY}&query=`;
+
 export const baseImagePath = (size: string, path: string) => {
   return `https://image.tmdb.org/t/p/${size}${path}`;
 };
@@ -38,6 +42,15 @@ export async function getUpcoming(): Promise<any> {
   } catch (error) {
     // Handle error
     console.error("Error retrieving upcoming movies data:", error);
+    // throw error;
+  }
+}
+export async function getSearch(keyword: string): Promise<any> {
+  try {
+    return await http.get(`${searchEndPoint}${keyword}`);
+  } catch (error) {
+    // Handle error
+    console.error("Error retrieving search movies data:", error);
     // throw error;
   }
 }

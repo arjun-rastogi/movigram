@@ -1,14 +1,31 @@
-import { View, Text } from "react-native";
-import React from "react";
+import React, { useLayoutEffect } from "react";
+import { StyleSheet, StatusBar, ScrollView } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { COLORS } from "../common/constant";
+import SearchMovie from "./../components/SearchMovie";
 
-type Props = {};
-
-const SearchScreen = (props: Props) => {
+export default function SearchScreen() {
+  const navigation = useNavigation();
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: false,
+    });
+  }, [navigation]);
   return (
-    <View>
-      <Text>SearchScreen</Text>
-    </View>
-  );
-};
+    <>
+      <ScrollView style={styles.homeContainer} bounces={false}>
+        <StatusBar />
 
-export default SearchScreen;
+        {/* "Search Movie" */}
+        <SearchMovie />
+      </ScrollView>
+    </>
+  );
+}
+
+const styles = StyleSheet.create({
+  homeContainer: {
+    display: "flex",
+    backgroundColor: COLORS.Black,
+  },
+});
